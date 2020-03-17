@@ -35,5 +35,4 @@ else
 fi
 
 chmod u+x ${TERRAFORM_PATH}
-which terraform
 terraform version
