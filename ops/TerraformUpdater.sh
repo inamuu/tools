@@ -22,17 +22,19 @@ if [ -f "${TERRAFORM_SRC}" ];then echo "Already installed terraform ${LATEST_VER
 
 TMPFILE="/tmp/terraform_${LATEST_VERSION}"
 wget ${DLURL} -O ${TMPFILE} && unzip ${TMPFILE}
-mv terraform ${TERRAFORM_SRC}
+sudo mv terraform ${TERRAFORM_SRC}
 
 TERRAFORM_PATH="/usr/local/bin/terraform"
 if [ -f "${TERRAFORM_PATH}" ];then
   if [ -L "${TERRAFORM_PATH}" ];then
-    unlink ${TERRAFORM_PATH}
-    ln -s ${TERRAFORM_SRC} ${TERRAFORM_PATH}
+    sudo unlink ${TERRAFORM_PATH}
+    sudo ln -s ${TERRAFORM_SRC} ${TERRAFORM_PATH}
   fi
 else
-    ln -s ${TERRAFORM_SRC} ${TERRAFORM_PATH}
+    sudo ln -s ${TERRAFORM_SRC} ${TERRAFORM_PATH}
 fi
 
 chmod u+x ${TERRAFORM_PATH}
+which terraform
 terraform version
+
