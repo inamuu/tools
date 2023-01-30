@@ -4,7 +4,7 @@
 
 set -eu
 
-MSG=$1
+MSG=${1:-"command success"}
 
 post_data()
 {
