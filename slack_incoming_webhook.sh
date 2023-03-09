@@ -1,28 +1,32 @@
 #!/bin/bash
 
-#!/bin/bash
-
 set -eu
 
 MSG=${1:-"command success"}
 
 post_data()
 {
-
-
-  cat <<EOF
+cat <<EOT
 {
-    "blocks": [
+  "text": "Slack Notify",
+  "blocks": [],
+  "attachments": [
+    {
+      "color": "#008000",
+      "blocks": [
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "*${MSG}*"
-            }
-         }
-    ]
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Result:* ${MSG}"
+          }
+        }
+      ],
+    }
+  ]
 }
-EOF
+EOT
+
 }
 
 curl -i -H "Content-type: application/json" -s -S -X POST -d "$(post_data)" "${SLACK_INCOMING_WEBHOOK}"
