@@ -8,25 +8,40 @@ post_data()
 {
 cat <<EOT
 {
-  "text": "Slack Notify",
-  "blocks": [],
+  "blocks": [
+      {
+          "type": "header",
+          "text": {
+              "type": "plain_text",
+              "text": "New request",
+              "emoji": true
+           }
+      }
+  ],
   "attachments": [
     {
       "color": "#008000",
-      "blocks": [
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Result:* ${MSG}"
+      "fields": [
+          {
+              "title": "A field's title",
+              "value": "This field's value",
+              "short": false
+          },
+          {
+              "title": "A short field's title",
+              "value": "A short field's value",
+              "short": true
+          },
+          {
+              "title": "A second short field's title",
+              "value": "A second short field's value",
+              "short": true
           }
-        }
-      ],
+      ]
     }
   ]
 }
 EOT
-
 }
 
 curl -i -H "Content-type: application/json" -s -S -X POST -d "$(post_data)" "${SLACK_INCOMING_WEBHOOK}"
