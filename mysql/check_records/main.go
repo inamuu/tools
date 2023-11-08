@@ -9,20 +9,20 @@ import (
 )
 
 func main() {
-        // .env ファイルから設定情報を読み込む
-        err := godotenv.Load()
-        if err != nil {
-            log.Fatal("Error loading .env file")
-        }
+    // .env ファイルから設定情報を読み込む
+    err := godotenv.Load()
+    if err != nil {
+        log.Fatal("Error loading .env file")
+    }
 
-        // MySQLへの接続情報を設定
-        config := mysql.Config{
-            User:     os.Getenv("DB_USER"),
-            Passwd:   os.Getenv("DB_PASS"),
-            Net:      "tcp",
-            Addr:     fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT")),
-            DBName:   os.Getenv("DB_NAME"),
-        }
+    // MySQLへの接続情報を設定
+    config := mysql.Config{
+        User:     os.Getenv("DB_USER"),
+        Passwd:   os.Getenv("DB_PASS"),
+        Net:      "tcp",
+        Addr:     fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT")),
+        DBName:   os.Getenv("DB_NAME"),
+    }
 
     // MySQLデータベースに接続
     db, err := sql.Open("mysql", config.FormatDSN())
@@ -78,4 +78,3 @@ func main() {
     // リストの内容を表示
     fmt.Println(recordList)
 }
-
