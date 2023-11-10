@@ -4,6 +4,7 @@ import (
     "database/sql"
     "fmt"
     "log"
+    "os"
     "github.com/go-sql-driver/mysql"
     "github.com/joho/godotenv"
 )
@@ -22,6 +23,7 @@ func main() {
         Net:      "tcp",
         Addr:     fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT")),
         DBName:   os.Getenv("DB_NAME"),
+        AllowNativePasswords: true,
     }
 
     // MySQLデータベースに接続
@@ -40,11 +42,17 @@ func main() {
 
     // 最初のテーブル名を取得
     var tableName string
-    if rows.Next() {
+    tableFound := false // テーブルが見つかったかどうかを追跡
+
+    for rows.Next() {
         if err := rows.Scan(&tableName); err != nil {
             log.Fatal(err)
         }
-    } else {
+        fmt.Println(tableName)
+        tableFound = true // テーブルが見つかったことをマーク
+    }
+
+    if !tableFound {
         log.Fatal("テーブルが見つかりませんでした。")
     }
 
@@ -52,7 +60,7 @@ func main() {
     query := fmt.Sprintf("SELECT * FROM %s LIMIT 1", tableName)
     row := db.QueryRow(query)
 
-    // レコードのカラム数を取得
+    // レコードのスキャン
     columns, err := row.Columns()
     if err != nil {
         log.Fatal(err)
@@ -64,7 +72,6 @@ func main() {
         values[i] = new(interface{})
     }
 
-    // レコードのスキャン
     if err := row.Scan(values...); err != nil {
         log.Fatal(err)
     }
