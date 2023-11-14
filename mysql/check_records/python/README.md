@@ -7,9 +7,9 @@ Copy this template when you create a app.
 Setup venv enviroment.
 
 ```sh
-python -m venv ~/.venv/TOOLNAME
-source ~/.venv/TOOLSNAME/bin/activate
-cd TOOLSPATH
+python -m venv .venv
+source ~/.venv/bin/activate
+pip install -U pip
 pip install -r requirements.txt
 ```
 
